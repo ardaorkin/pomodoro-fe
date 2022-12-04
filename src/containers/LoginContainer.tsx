@@ -13,7 +13,7 @@ const LoginContainer: React.FunctionComponent<ILoginContainerProps> = () => {
 
   return (
     <Card>
-      <div className="flex flew-row space-x-3">
+      <div className="flex flew-row space-x-3 mb-10">
         <button
           disabled={mode === "signup"}
           onClick={() => setMode("signup")}
