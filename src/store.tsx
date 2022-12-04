@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomsWithMutation, atomsWithQuery } from "jotai-tanstack-query";
 import { FunctionComponent } from "react";
-import { API_URL } from "./constants.json";
+import { API_URL, POMODORO_INITIALS } from "./constants.json";
 
 export interface IUser {
   username: string;
@@ -42,7 +42,7 @@ export interface IPages {
   SearchUsers: FunctionComponent;
 }
 
-export type Tabs = "Pomodoro" | "MyTeam" | "SearchUsers";
+export type Tabs = "Pomodoro" | "My Team" | "Search Users";
 
 export const currentTabAtom = atom<Tabs>("Pomodoro");
 
@@ -185,3 +185,8 @@ export const [, pomodoroStatusAtom] = atomsWithMutation((get) => ({
     return result;
   },
 }));
+
+export const passedTimeAtom = atom<number>(
+  POMODORO_INITIALS.initialPomodoroTime
+);
+export const breakTimeAtom = atom<number>(POMODORO_INITIALS.initialBreakTime);

@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useAtom } from "jotai";
-import { Pages } from "../pages";
 import { currentTabAtom, Tabs } from "../store";
+
+const pages = ["Pomodoro", "My Team", "Search Users"];
 
 const TabBar: React.FunctionComponent = () => {
   const [currentTab, setCurrentTab] = useAtom(currentTabAtom);
@@ -10,7 +11,7 @@ const TabBar: React.FunctionComponent = () => {
 
   return (
     <div className="h-16 space-x-2 flex flex-row absolute w-full">
-      {Object.keys(Pages).map((key, idx) => {
+      {pages.map((key, idx) => {
         return (
           <button
             key={idx}

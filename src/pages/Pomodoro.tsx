@@ -1,59 +1,22 @@
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import * as React from "react";
-import { POMODORO_INITIALS } from "../constants.json";
-import { pomodoroStatusAtom } from "../store";
+import { breakTimeAtom, passedTimeAtom } from "../store";
 
-const Pomodoro: React.FunctionComponent = () => {
-  const [, pomodoroStatusMutation] = useAtom(pomodoroStatusAtom);
-  const [start, setStart] = React.useState<boolean>(false);
-  const [passedTime, setPassedTime] = React.useState<number>(
-    POMODORO_INITIALS.initialPomodoroTime
-  );
-  const [breakTime, setBreakTime] = React.useState<number>(
-    POMODORO_INITIALS.initialBreakTime
-  );
+interface IPomodoroProps {
+  start: boolean;
+  handleStart: () => void;
+  handlePause: () => void;
+  handleStop: () => void;
+}
 
-  React.useEffect(() => {
-    if (start) {
-      if (breakTime === -1 && passedTime === 0) {
-        resetToInitials();
-      }
-      if (passedTime === 0) {
-        const breakTimer = setInterval(() => {
-          if (breakTime > -1) {
-            setBreakTime((prev) => prev - 1);
-          }
-        }, 1000);
-        return () => clearInterval(breakTimer);
-      }
-      const pomodoroTimer = setInterval(() => {
-        setPassedTime((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(pomodoroTimer);
-    }
-  }, [start, passedTime, breakTime]);
-
-  const resetToInitials = () => {
-    setPassedTime(POMODORO_INITIALS.initialPomodoroTime);
-    setBreakTime(POMODORO_INITIALS.initialBreakTime);
-  };
-
-  const handleStop = () => {
-    setStart(false);
-    resetToInitials();
-    pomodoroStatusMutation([false]);
-  };
-
-  const handleStart = () => {
-    setStart(true);
-    pomodoroStatusMutation([true]);
-  };
-
-  const handlePause = () => {
-    setStart(false);
-    pomodoroStatusMutation([false]);
-  };
-
+const Pomodoro: React.FunctionComponent<IPomodoroProps> = ({
+  start,
+  handlePause,
+  handleStart,
+  handleStop,
+}) => {
+  const passedTime = useAtomValue(passedTimeAtom);
+  const breakTime = useAtomValue(breakTimeAtom);
   return (
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col space-y-7">
@@ -82,14 +45,14 @@ const Pomodoro: React.FunctionComponent = () => {
         <button
           className="rounded bg-red-400 shadow-lg disabled:shadow-inner focus:border-0 focus:outline-none focus:ring-0 hover:outline-none hover:border-none"
           disabled={start}
-          onClick={() => setStart(true)}
+          onClick={handleStart}
         >
           Start
         </button>
         <button
           className="rounded bg-red-400 shadow-lg disabled:shadow-inner focus:border-0 focus:outline-none focus:ring-0 hover:outline-none hover:border-none"
           disabled={!start}
-          onClick={() => setStart(false)}
+          onClick={handlePause}
         >
           Pause
         </button>
