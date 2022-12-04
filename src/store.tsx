@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomsWithMutation, atomsWithQuery } from "jotai-tanstack-query";
 import { FunctionComponent } from "react";
-import constants from "./constants.json";
+import { API_URL } from "./constants.json";
 
 export interface IUser {
   username: string;
@@ -51,7 +51,7 @@ export const accessTokenAtom = atom(localStorage.getItem("access_token") ?? "");
 export const [, signupAtom] = atomsWithMutation(() => ({
   mutationKey: ["signup"],
   mutationFn: async (body: ISignupBody) => {
-    const res = await fetch(constants.API_URL + "/signup", {
+    const res = await fetch(API_URL + "/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const [, signupAtom] = atomsWithMutation(() => ({
 export const [, loginAtom] = atomsWithMutation(() => ({
   mutationKey: ["login"],
   mutationFn: async (body: ILoginBody) => {
-    const res = await fetch(constants.API_URL + "/login", {
+    const res = await fetch(API_URL + "/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export const [, loginAtom] = atomsWithMutation(() => ({
 export const [, searchUsersAtom] = atomsWithMutation((get) => ({
   mutationKey: ["search"],
   mutationFn: async (username: string) => {
-    const res = await fetch(constants.API_URL + "/search", {
+    const res = await fetch(API_URL + "/search", {
       method: "POST",
       headers: {
         Authorization: get(accessTokenAtom),
@@ -105,7 +105,7 @@ export const [, addToTeamAtom] = atomsWithMutation((get) => ({
     members: string[];
     teamID: string;
   }) => {
-    const res = await fetch(constants.API_URL + "/addmembers", {
+    const res = await fetch(API_URL + "/addmembers", {
       method: "POST",
       headers: {
         Authorization: get(accessTokenAtom),
@@ -121,7 +121,7 @@ export const [, addToTeamAtom] = atomsWithMutation((get) => ({
 export const [, createTeamAtom] = atomsWithMutation((get) => ({
   mutationKey: ["createTeam"],
   mutationFn: async (teamName: string) => {
-    const res = await fetch(constants.API_URL + "/createTeam", {
+    const res = await fetch(API_URL + "/createTeam", {
       method: "POST",
       headers: {
         Authorization: get(accessTokenAtom),
@@ -137,7 +137,7 @@ export const [, createTeamAtom] = atomsWithMutation((get) => ({
 export const [teamsAtom] = atomsWithQuery((get) => ({
   queryKey: ["teams", get(accessTokenAtom)],
   queryFn: async ({ queryKey: [, accessToken] }: { queryKey: string[] }) => {
-    const res = await fetch(constants.API_URL + "/myTeam", {
+    const res = await fetch(API_URL + "/myTeam", {
       headers: {
         Authorization: accessToken,
         "Content-Type": "application/json",
@@ -157,13 +157,29 @@ export const [, deleteMemberAtom] = atomsWithMutation((get) => ({
     members: string[];
     teamID: string;
   }) => {
-    const res = await fetch(constants.API_URL + "/removeMembers", {
+    const res = await fetch(API_URL + "/removeMembers", {
       method: "POST",
       headers: {
         Authorization: get(accessTokenAtom),
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ members, teamID }),
+    });
+    const result = await res.json();
+    return result;
+  },
+}));
+
+export const [, pomodoroStatusAtom] = atomsWithMutation((get) => ({
+  mutationKey: ["pomodoroStatus"],
+  mutationFn: async (status: boolean) => {
+    const res = await fetch(API_URL + "/onPomodoro", {
+      method: "PUT",
+      headers: {
+        Authorization: get(accessTokenAtom),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
     });
     const result = await res.json();
     return result;

@@ -1,7 +1,10 @@
+import { useAtom } from "jotai";
 import * as React from "react";
 import { POMODORO_INITIALS } from "../constants.json";
+import { pomodoroStatusAtom } from "../store";
 
 const Pomodoro: React.FunctionComponent = () => {
+  const [, pomodoroStatusMutation] = useAtom(pomodoroStatusAtom);
   const [start, setStart] = React.useState<boolean>(false);
   const [passedTime, setPassedTime] = React.useState<number>(
     POMODORO_INITIALS.initialPomodoroTime
@@ -35,9 +38,20 @@ const Pomodoro: React.FunctionComponent = () => {
     setBreakTime(POMODORO_INITIALS.initialBreakTime);
   };
 
-  const handleStop: () => void = () => {
+  const handleStop = () => {
     setStart(false);
     resetToInitials();
+    pomodoroStatusMutation([false]);
+  };
+
+  const handleStart = () => {
+    setStart(true);
+    pomodoroStatusMutation([true]);
+  };
+
+  const handlePause = () => {
+    setStart(false);
+    pomodoroStatusMutation([false]);
   };
 
   return (

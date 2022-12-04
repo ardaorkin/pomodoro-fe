@@ -23,8 +23,10 @@ const UserCard: React.FunctionComponent<IUserCardProps> = (props) => {
       onClick={handleClick}
     >
       <div
-        className={`rounded-full bg-green-400 border-green-400 border w-7 h-7 ${
-          props.user.onPomodoro ? "shadow-lg" : "shadow-inner"
+        className={`rounded-full border w-7 h-7 ${
+          props.user.onPomodoro
+            ? "shadow-lg bg-green-400"
+            : "shadow-inner bg-red-500"
         }`}
       ></div>
       <p>
