@@ -1,13 +1,7 @@
 import * as React from "react";
+import { POMODORO_INITIALS } from "../constants.json";
 
-interface IPomodoroProps {}
-
-const POMODORO_INITIALS = {
-  initialPomodoroTime: 1 * 5,
-  initialBreakTime: 1 * 5,
-};
-
-const Pomodoro: React.FunctionComponent<IPomodoroProps> = () => {
+const Pomodoro: React.FunctionComponent = () => {
   const [start, setStart] = React.useState<boolean>(false);
   const [passedTime, setPassedTime] = React.useState<number>(
     POMODORO_INITIALS.initialPomodoroTime
