@@ -1,3 +1,4 @@
+import { Button, Input, List } from "antd";
 import { useAtom } from "jotai";
 import * as React from "react";
 import {
@@ -22,30 +23,36 @@ const SearchUsers: React.FunctionComponent<ISearchUsersProps> = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-7">
-      <input
-        placeholder="Search users"
-        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-b-pink-600
-      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500 bg-transparent border-transparent placeholder:text-gray-100 placeholder:italic"
-        type={"text"}
-        name="username"
-        onChange={(event) => handleSearch(event.target.value)}
-      />
+    <div>
+      <Input.Search onChange={(event) => handleSearch(event.target.value)} />
       <div>
-        {userList.data?.map((user: IUser, idx: number) => (
-          <div>text</div>
-          // <UserCard
-          //   user={user}
-          //   key={idx}
-          //   handleUser={handleAddToTeam}
-          //   isMember={teams.members
-          //     .map(({ _id }: { _id: string }) => _id)
-          //     .includes(user._id)}
-          // />
-        ))}
+        <List
+          itemLayout="horizontal"
+          dataSource={userList.data}
+          renderItem={(user: IUser, idx: number) => (
+            <List.Item
+              style={{ textAlign: "start" }}
+              actions={[
+                <Button
+                  disabled={teams.members
+                    .map(({ _id }: { _id: string }) => _id)
+                    .includes(user._id)}
+                  type="primary"
+                  onClick={() => handleAddToTeam([user._id])}
+                >
+                  Add To Team
+                </Button>,
+              ]}
+            >
+              <List.Item.Meta
+                title={`${user.username}`}
+                description={`${user.first_name || ""} ${
+                  user.last_name || ""
+                } ${user.email}`}
+              />
+            </List.Item>
+          )}
+        />
       </div>
     </div>
   );
