@@ -34,7 +34,7 @@ const SearchUsers: React.FunctionComponent<ISearchUsersProps> = () => {
               style={{ textAlign: "start" }}
               actions={[
                 <Button
-                  disabled={teams.members
+                  disabled={teams?.members
                     .map(({ _id }: { _id: string }) => _id)
                     .includes(user._id)}
                   type="primary"
