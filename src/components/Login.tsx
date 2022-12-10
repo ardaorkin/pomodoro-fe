@@ -3,9 +3,11 @@ import { useAtom } from "jotai";
 import * as React from "react";
 import { loginAtom } from "../store";
 
-interface ILoginProps {}
+interface ILoginProps {
+  changeMode: () => void;
+}
 
-const Login: React.FunctionComponent<ILoginProps> = () => {
+const Login: React.FunctionComponent<ILoginProps> = (props) => {
   const [username, setUsername] = React.useState<string>("");
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -48,7 +50,7 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
           <Button type="primary" htmlType="submit" onClick={handleLogin}>
             Login
           </Button>
-          <a href="signup">Don't have an account? Signup now!</a>
+          <a onClick={props.changeMode}>Don't have an account? Signup now!</a>
         </div>
       </Form.Item>
     </Form>

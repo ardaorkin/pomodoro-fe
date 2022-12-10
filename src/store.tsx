@@ -61,7 +61,7 @@ export const [, signupAtom] = atomsWithMutation(() => ({
     if (res.status === 200) {
       const result: IToken = await res.json();
       localStorage.setItem("access_token", result.token);
-      window.location.href = window.location.origin;
+      window.location.reload();
     } else {
       const error = await res.text();
       throw new Error(error);

@@ -3,7 +3,9 @@ import { useAtom } from "jotai";
 import * as React from "react";
 import { signupAtom } from "../store";
 
-interface ISignUpProps {}
+interface ISignUpProps {
+  changeMode: () => void;
+}
 
 const SignUp: React.FunctionComponent<ISignUpProps> = (props) => {
   const [username, setUsername] = React.useState<string>("");
@@ -72,7 +74,7 @@ const SignUp: React.FunctionComponent<ISignUpProps> = (props) => {
           <Button type="primary" htmlType="submit" onClick={handleSignup}>
             Signup
           </Button>
-          <a href="/">Already have an account? Login!</a>
+          <a onClick={props.changeMode}>Already have an account? Login!</a>
         </div>
       </Form.Item>
     </Form>
