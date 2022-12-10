@@ -139,8 +139,13 @@ export const [, createTeamAtom] = atomsWithMutation((get) => ({
       },
       body: JSON.stringify({ name: teamName }),
     });
-    const result = await res.json();
-    return result;
+    if (res.status === 200) {
+      const result = await res.json();
+      return result;
+    } else {
+      const error = await res.text();
+      throw new Error(error);
+    }
   },
 }));
 
