@@ -12,8 +12,22 @@ import Pomodoro from "../pages/Pomodoro";
 import MyTeam from "../pages/MyTeam";
 import SearchUsers from "../pages/SearchUsers";
 
+const tabList = [
+  {
+    key: "pomodoro",
+    tab: "Pomodoro",
+  },
+  {
+    key: "myteam",
+    tab: "My Team",
+  },
+  {
+    key: "search",
+    tab: "Search Users",
+  },
+];
+
 const PagesContainer: React.FunctionComponent = () => {
-  const [currentTab] = useAtom(currentTabAtom);
   const [, pomodoroStatusMutation] = useAtom(pomodoroStatusAtom);
   const [start, setStart] = React.useState<boolean>(false);
   const [passedTime, setPassedTime] = useAtom(passedTimeAtom);
@@ -60,36 +74,20 @@ const PagesContainer: React.FunctionComponent = () => {
     pomodoroStatusMutation([false]);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    pomodoroStatusMutation([false]);
-    window.location.reload();
+  const contentList: Record<string, React.ReactNode> = {
+    pomodoro: (
+      <Pomodoro
+        handleStart={handleStart}
+        handlePause={handlePause}
+        handleStop={handleStop}
+        start={start}
+      />
+    ),
+    myteam: <MyTeam />,
+    search: <SearchUsers />,
   };
 
-  return (
-    <div>
-      <button
-        className="absolute top-1 right-1 rounded bg-red-400 shadow-lg focus:border-0 focus:outline-none focus:ring-0 hover:outline-none hover:border-none"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
-      <Card>
-        {currentTab === "Pomodoro" ? (
-          <Pomodoro
-            handleStart={handleStart}
-            handlePause={handlePause}
-            handleStop={handleStop}
-            start={start}
-          />
-        ) : currentTab === "My Team" ? (
-          <MyTeam />
-        ) : (
-          <SearchUsers />
-        )}
-      </Card>
-    </div>
-  );
+  return <Card contentList={contentList} tabList={tabList} />;
 };
 
 export default PagesContainer;

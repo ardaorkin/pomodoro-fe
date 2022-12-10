@@ -1,6 +1,5 @@
 import { useAtom } from "jotai";
 import * as React from "react";
-import UserCard from "../components/UserCard";
 import {
   addToTeamAtom,
   ISearchUsersProps,
@@ -37,14 +36,15 @@ const SearchUsers: React.FunctionComponent<ISearchUsersProps> = () => {
       />
       <div>
         {userList.data?.map((user: IUser, idx: number) => (
-          <UserCard
-            user={user}
-            key={idx}
-            handleUser={handleAddToTeam}
-            isMember={teams.members
-              .map(({ _id }: { _id: string }) => _id)
-              .includes(user._id)}
-          />
+          <div>text</div>
+          // <UserCard
+          //   user={user}
+          //   key={idx}
+          //   handleUser={handleAddToTeam}
+          //   isMember={teams.members
+          //     .map(({ _id }: { _id: string }) => _id)
+          //     .includes(user._id)}
+          // />
         ))}
       </div>
     </div>
