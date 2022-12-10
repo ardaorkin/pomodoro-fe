@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { useAtom } from "jotai";
 import * as React from "react";
 import { loginAtom } from "../store";
@@ -44,9 +44,12 @@ const Login: React.FunctionComponent<ILoginProps> = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" onClick={handleLogin}>
-          Login
-        </Button>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Button type="primary" htmlType="submit" onClick={handleLogin}>
+            Login
+          </Button>
+          <a href="signup">Don't have an account? Signup now!</a>
+        </div>
       </Form.Item>
     </Form>
   );

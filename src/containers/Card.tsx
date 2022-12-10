@@ -46,7 +46,9 @@ const Card: React.FunctionComponent<ICardProps> = ({
       }}
     >
       <React.Suspense fallback={<Skeleton />}>
-        {contentList[activeTabKey1]}
+        <div style={{ height: 500, overflowY: "auto" }}>
+          {contentList[activeTabKey1]}
+        </div>
       </React.Suspense>
     </AntCard>
   );

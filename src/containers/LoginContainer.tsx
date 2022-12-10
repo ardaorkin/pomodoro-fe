@@ -11,7 +11,7 @@ const contentList: Record<string, React.ReactNode> = {
 const LoginContainer: React.FunctionComponent = () => {
   return (
     <Card style={{ width: 600, height: 700 }}>
-      <Login />
+      {window.location.pathname === "/signup" ? <SignUp /> : <Login />}
     </Card>
   );
 };
