@@ -74,9 +74,14 @@ export const [, loginAtom] = atomsWithMutation(() => ({
       },
       body: JSON.stringify(body),
     });
-    const result: IToken = await res.json();
-    localStorage.setItem("access_token", result.token);
-    window.location.reload();
+    if (res.status === 200) {
+      const result: IToken = await res.json();
+      localStorage.setItem("access_token", result.token);
+      window.location.reload();
+    } else {
+      const error = await res.text();
+      throw new Error(error);
+    }
   },
 }));
 

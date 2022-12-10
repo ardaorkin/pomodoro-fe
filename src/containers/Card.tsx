@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import * as React from "react";
-import TabBar from "../components/TabBar";
-import { accessTokenAtom, pomodoroStatusAtom } from "../store";
+import { pomodoroStatusAtom } from "../store";
 import { Button, Card as AntCard, Skeleton } from "antd";
 
 interface ICardProps {
@@ -38,6 +37,7 @@ const Card: React.FunctionComponent<ICardProps> = ({
           Logout
         </Button>
       }
+      defaultActiveTabKey={`${contentList[0]}`}
       style={{ width: 600, height: 700 }}
       tabList={tabList}
       activeTabKey={activeTabKey1}

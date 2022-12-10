@@ -1,14 +1,7 @@
 import * as React from "react";
 import Login from "../components/Login";
 import SignUp from "../components/Signup";
-import Card from "./Card";
-
-const tabList = [
-  {
-    key: "login",
-    tab: "login",
-  },
-];
+import { Card } from "antd";
 
 const contentList: Record<string, React.ReactNode> = {
   login: <Login />,
@@ -16,7 +9,11 @@ const contentList: Record<string, React.ReactNode> = {
 };
 
 const LoginContainer: React.FunctionComponent = () => {
-  return <Card contentList={contentList} tabList={tabList} />;
+  return (
+    <Card style={{ width: 600, height: 700 }}>
+      <Login />
+    </Card>
+  );
 };
 
 export default LoginContainer;
