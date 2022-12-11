@@ -1,6 +1,5 @@
 import { Badge, Button, List } from "antd";
-import { green } from "@ant-design/colors";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import * as React from "react";
 import TeamForm from "../components/TeamForm";
 import { deleteMemberAtom, teamsAtom } from "../store";
@@ -15,7 +14,7 @@ interface IMember {
 }
 
 const MyTeam: React.FunctionComponent = () => {
-  const [myTeam] = useAtom(teamsAtom);
+  const myTeam = useAtomValue(teamsAtom);
   const [, deleteMemberMutation] = useAtom(deleteMemberAtom);
 
   const handleDelete = (members: string[], teamID: string) => {

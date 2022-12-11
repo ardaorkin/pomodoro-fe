@@ -6,11 +6,13 @@ import { Button, Card as AntCard, Skeleton } from "antd";
 interface ICardProps {
   contentList: Record<string, React.ReactNode>;
   tabList: { key: string; tab: string }[];
+  defaultActiveTab: string;
 }
 
 const Card: React.FunctionComponent<ICardProps> = ({
   contentList,
   tabList,
+  defaultActiveTab,
 }) => {
   const [activeTabKey1, setActiveTabKey1] = React.useState<string>("tab1");
   const [, pomodoroStatusMutation] = useAtom(pomodoroStatusAtom);
@@ -37,7 +39,7 @@ const Card: React.FunctionComponent<ICardProps> = ({
           Logout
         </Button>
       }
-      defaultActiveTabKey={`${contentList[0]}`}
+      defaultActiveTabKey={defaultActiveTab}
       style={{ width: 600, height: 700 }}
       tabList={tabList}
       activeTabKey={activeTabKey1}

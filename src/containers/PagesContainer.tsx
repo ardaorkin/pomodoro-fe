@@ -1,8 +1,8 @@
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import * as React from "react";
 import {
   breakTimeAtom,
-  currentTabAtom,
+  createPomodoroAtom,
   passedTimeAtom,
   pomodoroStatusAtom,
 } from "../store";
@@ -11,11 +11,16 @@ import { POMODORO_INITIALS } from "../constants.json";
 import Pomodoro from "../pages/Pomodoro";
 import MyTeam from "../pages/MyTeam";
 import SearchUsers from "../pages/SearchUsers";
+import MyPomodoros from "../pages/MyPomodoros";
 
 const tabList = [
   {
     key: "pomodoro",
     tab: "Pomodoro",
+  },
+  {
+    key: "mypomodoros",
+    tab: "My Pomodoros",
   },
   {
     key: "myteam",
@@ -32,6 +37,7 @@ const PagesContainer: React.FunctionComponent = () => {
   const [start, setStart] = React.useState<boolean>(false);
   const [passedTime, setPassedTime] = useAtom(passedTimeAtom);
   const [breakTime, setBreakTime] = useAtom(breakTimeAtom);
+  const createPomodoro = useSetAtom(createPomodoroAtom);
 
   React.useEffect(() => {
     if (start) {
@@ -39,6 +45,7 @@ const PagesContainer: React.FunctionComponent = () => {
         resetToInitials();
       }
       if (passedTime === 0) {
+        createPomodoro([POMODORO_INITIALS.initialPomodoroTime]);
         const breakTimer = setInterval(() => {
           if (breakTime > -1) {
             setBreakTime((prev) => prev - 1);
@@ -85,9 +92,16 @@ const PagesContainer: React.FunctionComponent = () => {
     ),
     myteam: <MyTeam />,
     search: <SearchUsers />,
+    mypomodoros: <MyPomodoros />,
   };
 
-  return <Card contentList={contentList} tabList={tabList} />;
+  return (
+    <Card
+      contentList={contentList}
+      tabList={tabList}
+      defaultActiveTab="pomodoro"
+    />
+  );
 };
 
 export default PagesContainer;

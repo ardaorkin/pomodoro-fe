@@ -201,6 +201,46 @@ export const [, pomodoroStatusAtom] = atomsWithMutation((get) => ({
   },
 }));
 
+export const [, createPomodoroAtom] = atomsWithMutation((get) => ({
+  mutationKey: ["createPomodoro"],
+  mutationFn: async (length: number) => {
+    const res = await fetch(API_URL + "/createPomodoro", {
+      method: "POST",
+      headers: {
+        Authorization: get(accessTokenAtom),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ length }),
+    });
+    if (res.status === 200) {
+      const result = await res.json();
+      return result;
+    } else {
+      const error = await res.text();
+      throw new Error(error);
+    }
+  },
+}));
+
+export const [myPomodorosAtom] = atomsWithQuery((get) => ({
+  queryKey: ["myPomodoros", get(accessTokenAtom)],
+  queryFn: async ({ queryKey: [, accessToken] }: { queryKey: string[] }) => {
+    const res = await fetch(API_URL + "/myPomodoros", {
+      headers: {
+        Authorization: accessToken,
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      const result = await res.json();
+      return result;
+    } else {
+      const error = await res.text();
+      throw new Error(error);
+    }
+  },
+}));
+
 export const passedTimeAtom = atom<number>(
   POMODORO_INITIALS.initialPomodoroTime
 );
